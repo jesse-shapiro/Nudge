@@ -64,6 +64,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ecf0f1',
   },
   day: {
-    width: 2000
+    width: 20
   }
 });

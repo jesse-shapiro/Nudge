@@ -1,6 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import AddNudge from '../components/AddNudge'
+import Header from '../components/Header'
 import {
   Image,
   Platform,
@@ -16,7 +17,7 @@ import { MonoText } from '../components/StyledText';
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <AddNudge />
+      <Header text='Nudges'/>
     </View>
     // <View style={styles.container}>
     //   <ScrollView

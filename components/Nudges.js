@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import AddNudgeModal from './AddNudgeModal'
 import DayPicker from './DayPicker'
 import TimePicker from './TimePicker'
 import {
   View,
   StyleSheet,
   TextInput,
+  Modal,
   Button
 } from 'react-native';
 
@@ -16,6 +18,10 @@ export default class Nudges extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Button
+          title='+'
+          onPress={AddNudgeModal}
+        />
         <TextInput>Testing out view nudges page</TextInput>
       </View>
     )
