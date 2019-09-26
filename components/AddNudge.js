@@ -50,7 +50,7 @@ export default class AddNudge extends Component {
             />
           </TouchableHighlight>
          <TextInput
-          multiline={true}
+          // multiline={true}
           style={styles.textInput}
           placeholder="How can we Nudge you?"
           onChangeText={(text) => this.setState({text})}

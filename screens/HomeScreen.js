@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
-import AddNudge from '../components/AddNudge'
+import React, {Component} from 'react';
+import SingleNudge from '../components/SingleNudge'
 import Header from '../components/Header'
 import {
   Image,
@@ -13,12 +13,39 @@ import {
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
+import { FirebaseWrapper } from '../firebase/firebase';
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Header text='Nudges'/>
-    </View>
+export default class HomeScreen extends Component {
+  constructor() {
+    super()
+    this.state = {
+      nudges: []
+    }
+  }
+
+  async componentDidMount() {
+    await FirebaseWrapper.GetInstance().SetupCollectionListener('nudges', (nudges) => {
+      this.setState({nudges})
+    })
+
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Header text='Nudges'/>
+        <ScrollView nudgeInfo={{text: 'test'}}>
+        {
+          this.state.nudges.map((nudge) => {
+            return <SingleNudge nudgeInfo={nudge} key={nudge.id}/>
+          })
+        }
+        </ScrollView>
+      </View>
+    )
+  }
+
+}
     // <View style={styles.container}>
     //   <ScrollView
     //     style={styles.container}
@@ -71,8 +98,7 @@ export default function HomeScreen() {
     //     </View>
     //   </View>
     // </View>
-  );
-}
+
 
 HomeScreen.navigationOptions = {
   header: null,
