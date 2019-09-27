@@ -1,7 +1,9 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, {Component} from 'react';
 import SingleNudge from '../components/SingleNudge'
-import Header from '../components/Header'
+import HeaderBar from '../components/Header'
+import Login from '../components/Login'
+import { List, ListItem } from 'native-base'
 import {
   Image,
   Platform,
@@ -10,10 +12,13 @@ import {
   Text,
   TouchableOpacity,
   View,
+  StatusBar,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 import { FirebaseWrapper } from '../firebase/firebase';
+import { Permissions, Notifications } from 'expo'
+
 
 export default class HomeScreen extends Component {
   constructor() {
@@ -27,20 +32,69 @@ export default class HomeScreen extends Component {
     await FirebaseWrapper.GetInstance().SetupCollectionListener('nudges', (nudges) => {
       this.setState({nudges})
     })
+  }
 
+  async registerForPushNotificationsAsync() {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== 'granted') {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== 'granted') {
+      return;
+    }
+
+    // Get the token that uniquely identifies this device
+    let token = await Notifications.getExpoPushTokenAsync();
   }
 
   render() {
+    console.log('test', this.state.nudges)
     return (
       <View style={styles.container}>
-        <Header text='Nudges'/>
-        <ScrollView nudgeInfo={{text: 'test'}}>
-        {
+        {/* <Login /> */}
+        <HeaderBar text='Nudges' style={{marginTop: StatusBar.currentHeight}}/>
+        <ScrollView>
+          {/* <List
+            dataSource={['test', 'this']}
+            renderRow={(data) => {
+              <ListItem>
+              <View>
+                <Text>{data}</Text>
+                <Text>testing</Text>
+              </View>
+
+              </ListItem>
+            }}
+            renderLeftHiddenRow={data =>
+              <Button full>
+                <Icon name='information-circle' />
+              </Button>
+            }
+            renderRightHiddenRow={data =>
+              <Button full danger>
+                <Icon name='trash' />
+              </Button>
+            }
+            leftOpenValue={-75}
+            rightOpenValue={-75}
+            /> */}
+         {
           this.state.nudges.map((nudge) => {
             return <SingleNudge nudgeInfo={nudge} key={nudge.id}/>
           })
         }
-        </ScrollView>
+         </ScrollView>
       </View>
     )
   }
@@ -142,7 +196,7 @@ function handleHelpPress() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    // paddingTop: 40,
     backgroundColor: '#fff',
   },
   developmentModeText: {

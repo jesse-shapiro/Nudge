@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
 import AddNudge from './AddNudge';
+import {
+  Container,
+  Content,
+  Form,
+  Input,
+  Header,
+  Icon,
+  Item,
+  Button,
+  Label
+} from 'native-base'
 
-export default class Header extends Component {
+export default class HeaderBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +28,16 @@ export default class Header extends Component {
 
   render() {
     return (
+      // <Header style={{marginTop: StatusBar.currentHeight}}>
+      //   <Content>
+      //     <Item>
+      //       <Button>
+      //         <Icon name='add' />
+      //       </Button>
+      //     </Item>
+      //   </Content>
+      // </Header>
+
       <View style={styles.container}>
         <Text style={styles.text}>
           {this.props.text}
@@ -32,7 +53,7 @@ export default class Header extends Component {
         <AddNudge isModalVisible={this.state.isModalVisible} closeModal={() => this.closeModal()} />
 
       </View>
-    );
+    )
   }
 }
 
@@ -40,6 +61,7 @@ const styles = StyleSheet.create({
   container: {
     height: 30,
     flexDirection: 'row',
+    marginTop: 40,
     alignItems: 'center',
     paddingLeft: 30,
     borderBottomWidth: 1,

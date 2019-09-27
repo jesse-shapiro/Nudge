@@ -40,30 +40,30 @@ export default class AddNudge extends Component {
         visible={this.props.isModalVisible}
       >
         <View style={styles.container}>
-        <TouchableHighlight
-            onPress={() => {
-              this.props.closeModal()
-            }}>
-            <Image
-              source={{ uri: 'https://cdn4.iconfinder.com/data/icons/media-controls-4/100/close-512.png' }}
-              style={styles.close}
-            />
+          <TouchableHighlight
+              onPress={() => {
+                this.props.closeModal()
+              }}>
+              <Image
+                source={require('./../assets/images/close-512.png')}
+                style={styles.close}
+              />
           </TouchableHighlight>
-         <TextInput
-          // multiline={true}
-          style={styles.textInput}
-          placeholder="How can we Nudge you?"
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-        />
-        <View style={styles.timing}>
-          <DayPicker />
-          <TimePicker />
-        </View>
-        <Button
-          onPress={() => {this.createNudge()}}
-          title="Get Nudged!"
-        />
+          <TextInput
+            // multiline={true}
+            style={styles.textInput}
+            placeholder="How can we Nudge you?"
+            onChangeText={(text) => this.setState({text})}
+            value={this.state.text}
+          />
+          <View style={styles.timing}>
+            <DayPicker />
+            <TimePicker />
+          </View>
+          <Button
+            onPress={() => {this.createNudge()}}
+            title="Get Nudged!"
+          />
         </View>
 
       </Modal>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   close: {
     width: 30,
     height: 30,
-    marginLeft: 380,
+    marginLeft: 340,
     // alignSelf: 'flex-end',
     marginRight: 10,
     marginBottom: 10
