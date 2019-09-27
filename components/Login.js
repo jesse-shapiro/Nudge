@@ -1,6 +1,7 @@
 import React from 'react'
 import * as firebase from 'firebase'
 import * as Facebook from 'expo-facebook'
+import { FirebaseWrapper } from '../firebase/firebase';
 import {
   Image,
   Platform,
@@ -40,14 +41,28 @@ export default class Login extends React.Component {
     })
   }
 
-  signUpUser = (email, password) => {
+  signUpUser = async(email, password) => {
     try {
       if (this.state.password.length < 6) {
         alert('Please enter at least 6 characters')
         return
       }
 
-      firebase.auth().createUserWithEmailAndPassword(email, password)
+      let cred = await firebase.auth().createUserWithEmailAndPassword(email, password)
+      console.log('cred------', cred.user)
+      FirebaseWrapper.GetInstance().collections('users').doc(cred.user.uid).set({
+        email: email
+      })
+
+
+      // let user = FirebaseAuth.getInstance().getCurrentUser()
+      // console.log('user----', user)
+
+
+    //   firebase.auth().currentUser.updateProfile({
+    //     displayName : validate.name,
+    // }).then(()=>{
+    //     firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/profile").set(firebase.auth().currentUser);
 
     } catch (error) {
       console.log(error)

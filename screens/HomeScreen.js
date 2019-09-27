@@ -3,9 +3,12 @@ import React, {Component} from 'react';
 import SingleNudge from '../components/SingleNudge'
 import HeaderBar from '../components/Header'
 import Login from '../components/Login'
-import { List, ListItem } from 'native-base'
+import * as firebase from 'firebase'
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { List, ListItem, Content } from 'native-base'
 import {
   Image,
+  FlatList,
   Platform,
   ScrollView,
   StyleSheet,
@@ -13,28 +16,54 @@ import {
   TouchableOpacity,
   View,
   StatusBar,
+  ListView,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 import { FirebaseWrapper } from '../firebase/firebase';
-import { Permissions, Notifications } from 'expo'
+import { Notifications } from 'expo'
+import * as Permissions from 'expo-permissions'
 
 
 export default class HomeScreen extends Component {
   constructor() {
     super()
+
+    // const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
-      nudges: []
+      nudges: [],
+      user: {}
     }
   }
 
   async componentDidMount() {
+    try {
+        await firebase.auth().onAuthStateChanged((user) => {
+          if (user != null) {
+            this.setState({
+              user
+            })
+          }
+        })
+
+      // var that = this
+      // let user = await firebase.auth().signInWithEmailAndPassword('testemail@gmail.com', 'password')
+
+      // // console.log('user-------', user)
+
+      // that.registerForPushNotificationsAsync(user)
+
+    } catch (error) {
+      console.log(error)
+    }
+
     await FirebaseWrapper.GetInstance().SetupCollectionListener('nudges', (nudges) => {
       this.setState({nudges})
     })
   }
 
-  async registerForPushNotificationsAsync() {
+
+  async registerForPushNotificationsAsync(user) {
     const { status: existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     );
@@ -56,25 +85,67 @@ export default class HomeScreen extends Component {
 
     // Get the token that uniquely identifies this device
     let token = await Notifications.getExpoPushTokenAsync();
+
+    var updates = {}
+    updates['/expoToken'] = token
+    firebase.database.ref('users').child(user.uid).update(updates)
   }
 
   render() {
-    console.log('test', this.state.nudges)
+    console.log('test', this.state.user)
     return (
-      <View style={styles.container}>
-        {/* <Login /> */}
-        <HeaderBar text='Nudges' style={{marginTop: StatusBar.currentHeight}}/>
-        <ScrollView>
-          {/* <List
-            dataSource={['test', 'this']}
-            renderRow={(data) => {
-              <ListItem>
-              <View>
-                <Text>{data}</Text>
-                <Text>testing</Text>
-              </View>
+      // <View style={styles.container}>
+        !this.state.user.uid
+        ? <Login />
+        : (<View style={styles.container}>
+          <HeaderBar text='Nudges' style={{marginTop: StatusBar.currentHeight}}/>
+          <FlatList
+            data={this.state.nudges}
+            renderItem={({item}) => <SingleNudge nudgeInfo={item} key={item.id}/>}
+            keyExtractor={(item, index) => item.id}
+          />
+        </View>
+        )
+        // </View>
+        )
+      }
 
+    }
+
+        {/* <SwipeListView
+            data={this.state.nudges}
+            renderItem={({item}) => <SingleNudge nudgeInfo={item} key={item.id}/>}
+            // renderItem={ (data, rowMap) => (
+            //     <View style={styles.rowFront}>
+            //         <Text>I am {data.item} in a SwipeListView</Text>
+            //     </View>
+            // )}
+            renderHiddenItem={ (data, rowMap) => (
+                <View style={styles.rowBack}>
+                    <Text>Left</Text>
+                    <Text>Right</Text>
+                </View>
+            )}
+            leftOpenValue={75}
+            rightOpenValue={-75}
+        /> */}
+
+
+
+        {/* <ScrollView> */}
+        {/* <Content>
+          <List
+            dataSource={this.state.nudges}
+            renderRow={(data) => {
+              return (
+                <ListItem>
+                  <View>
+                    <Text>{data}</Text>
+                    <Text>testing</Text>
+                  </View>
               </ListItem>
+              )
+
             }}
             renderLeftHiddenRow={data =>
               <Button full>
@@ -88,18 +159,15 @@ export default class HomeScreen extends Component {
             }
             leftOpenValue={-75}
             rightOpenValue={-75}
-            /> */}
-         {
+            />
+            </Content> */}
+         {/* {
           this.state.nudges.map((nudge) => {
             return <SingleNudge nudgeInfo={nudge} key={nudge.id}/>
           })
         }
-         </ScrollView>
-      </View>
-    )
-  }
+         </ScrollView> */}
 
-}
     // <View style={styles.container}>
     //   <ScrollView
     //     style={styles.container}

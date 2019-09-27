@@ -43,6 +43,15 @@ export class FirebaseWrapper {
     }
   }
 
+  async DeleteDocument(collectionPath, doc) {
+    try {
+      const ref = await this._firestore.collection(collectionPath).doc(doc.id).delete()
+
+    } catch (error) {
+      console.log('something went wrong: ', error)
+    }
+  }
+
   async SetupCollectionListener(collectionPath, callback) {
     try {
       console.log('calling SetupCollectionListener')

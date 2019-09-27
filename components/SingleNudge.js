@@ -1,22 +1,51 @@
 import React from 'react';
 import { Text, View, Image, StyleSheet, Button } from 'react-native';
+import Swipeout from 'react-native-swipeout';
+import * as firebase from 'firebase'
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import Swipeable from 'react-native-swipeable-row';
+import { FirebaseWrapper } from '../firebase/firebase';
 
-export default function SingleNudge (props) {
-  return (
-    <View style={styles.postContainer}>
-      <View style={styles.container}>
-        {/* <Image
-          style={{ width: 50, height: 50, borderRadius: 25 }}
-          source={{ uri: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/prince-1561086744.jpg?resize=320:*" }} /> */}
 
-        <View style={styles.dateUserContainer}>
-          <Text style={styles.text}>{props.nudgeInfo.text} </Text>
-          <Text> Recurrence?</Text>
-        </View>
+
+export default class SingleNudge extends React.Component {
+  constructor() {
+    super()
+
+    this.rightButtons = [
+      {text: 'Delete',
+        onPress: (data) => {
+          this.deleteNudge(data)
+        }
+      }]
+  }
+
+  async deleteNudge() {
+    // console.log('anything', this.props.nudgeInfo)
+    // console.log('data: ', data)
+    await FirebaseWrapper.GetInstance().DeleteDocument('nudges', this.props.nudgeInfo)
+    // await firebase.database().ref('nudges' + this.props.nudgeInfo.id).set(null)
+    // rowMap['$']
+  }
+
+
+
+  // <TouchableHighlight><Text>Delete</Text></TouchableHighlight>
+
+  render() {
+    // console.log('single: ', this.props.nudgeInfo)
+    return (
+      <View style={styles.postContainer}>
+          <Swipeout right={this.rightButtons} onPress={this.deleteNudge} style={styles.swipe}>
+            <View style={styles.dateUserContainer}>
+              <Text style={styles.text}>{this.props.nudgeInfo.text} </Text>
+              <Text> Recurrence?</Text>
+            </View>
+          </Swipeout>
       </View>
-    </View>
-  );
+    );
+  }
+
 }
 
 const styles = StyleSheet.create({
@@ -25,6 +54,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomColor: '#dadada',
     borderBottomWidth: 1,
+  },
+  swipe: {
+    backgroundColor: 'white'
   },
   container: {
     flex: 1,
@@ -36,7 +68,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dateUserContainer: {
-    marginLeft: 3
+    marginLeft: 3,
+
   },
   postText: {
     padding: 5,
