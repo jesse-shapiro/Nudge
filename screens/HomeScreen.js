@@ -45,12 +45,15 @@ export default class HomeScreen extends Component {
           }
         })
 
-      var that = this
-      let user = await firebase.auth().signInWithEmailAndPassword('pancake@gmail.com', 'password')
+      // var that = this
+      // let user = await firebase.auth().signInWithEmailAndPassword('pancake@gmail.com', 'password')
 
-        console.log('-----------something or no', user)
+        // console.log('-----------something or no', user)
+        if (this.state.user.uid) {
+          this.registerForPushNotificationsAsync(this.state.user)
+        }
 
-      that.registerForPushNotificationsAsync(user)
+
 
     } catch (error) {
       console.log(error)
@@ -67,7 +70,7 @@ export default class HomeScreen extends Component {
       Permissions.NOTIFICATIONS
     );
     let finalStatus = existingStatus;
-    console.log('---------befstatus', existingStatus)
+    // console.log('---------befstatus', existingStatus)
 
     // only ask if permissions have not already been determined, because
     // iOS won't necessarily prompt the user a second time.
@@ -75,7 +78,7 @@ export default class HomeScreen extends Component {
       // Android remote notification permissions are granted during the app
       // install, so this will only ask on iOS
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      console.log('---------status', status)
+      // console.log('---------status', status)
       finalStatus = status;
     }
 
@@ -89,15 +92,19 @@ export default class HomeScreen extends Component {
 
     var updates = {}
     updates['expoToken'] = token
-    console.log('user-------', user)
+    // console.log('user-------', user.user)
     console.log('updates????????', updates)
-    console.log('uid', user.user.uid)
-    firebase.firestore().collection('users').doc(user.user.uid).update(updates)
+    console.log('uid-------------', user.uid)
+    firebase.firestore().collection('users').doc(user.uid).update(updates)
     // firebase.firestore().collection('users').child(user.uid).update(updates)
   }
 
   render() {
     // console.log('test', this.state.user)
+    if (this.state.user.uid) {
+      this.registerForPushNotificationsAsync(this.state.user)
+    }
+
     return (
       // <View style={styles.container}>
         !this.state.user.uid

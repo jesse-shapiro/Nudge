@@ -36,7 +36,7 @@ export default class Login extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        console.log('user: ', user)
+        // console.log('user: ', user)
       }
     })
   }
@@ -71,7 +71,7 @@ export default class Login extends React.Component {
   loginUser = (email, password) => {
     try {
       firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
-        console.log(user)
+        // console.log(user)
       })
     } catch (error) {
       console.log(error)

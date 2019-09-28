@@ -39,7 +39,7 @@ export default class SingleNudge extends React.Component {
           <Swipeout right={this.rightButtons} onPress={this.deleteNudge} style={styles.swipe}>
             <View style={styles.dateUserContainer}>
               <Text style={styles.text}>{this.props.nudgeInfo.text} </Text>
-              <Text> Recurrence?</Text>
+              <Text> M T W Th F | 2:00pm</Text>
             </View>
           </Swipeout>
       </View>
