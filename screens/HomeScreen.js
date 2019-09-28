@@ -46,9 +46,9 @@ export default class HomeScreen extends Component {
         })
 
       var that = this
-      let user = await firebase.auth().signInWithEmailAndPassword('chi@gmail.com', 'password')
+      let user = await firebase.auth().signInWithEmailAndPassword('pancake@gmail.com', 'password')
 
-      console.log('user-------', user)
+        console.log('-----------something or no', user)
 
       that.registerForPushNotificationsAsync(user)
 
@@ -88,8 +88,12 @@ export default class HomeScreen extends Component {
     let token = await Notifications.getExpoPushTokenAsync();
 
     var updates = {}
-    updates['/expoToken'] = token
-    firebase.database.ref('users').child(user.uid).update(updates)
+    updates['expoToken'] = token
+    console.log('user-------', user)
+    console.log('updates????????', updates)
+    console.log('uid', user.user.uid)
+    firebase.firestore().collection('users').doc(user.user.uid).update(updates)
+    // firebase.firestore().collection('users').child(user.uid).update(updates)
   }
 
   render() {
