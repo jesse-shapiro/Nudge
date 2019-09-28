@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   postContainer: {
     flex: 1,
     padding: 10,
-    borderBottomColor: '#dadada',
+    borderBottomColor: '#800000',
     borderBottomWidth: 1,
   },
   swipe: {

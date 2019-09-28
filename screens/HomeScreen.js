@@ -29,7 +29,6 @@ export default class HomeScreen extends Component {
   constructor() {
     super()
 
-    // const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       nudges: [],
       user: {}
@@ -46,12 +45,12 @@ export default class HomeScreen extends Component {
           }
         })
 
-      // var that = this
-      // let user = await firebase.auth().signInWithEmailAndPassword('testemail@gmail.com', 'password')
+      var that = this
+      let user = await firebase.auth().signInWithEmailAndPassword('chi@gmail.com', 'password')
 
-      // // console.log('user-------', user)
+      console.log('user-------', user)
 
-      // that.registerForPushNotificationsAsync(user)
+      that.registerForPushNotificationsAsync(user)
 
     } catch (error) {
       console.log(error)
@@ -68,6 +67,7 @@ export default class HomeScreen extends Component {
       Permissions.NOTIFICATIONS
     );
     let finalStatus = existingStatus;
+    console.log('---------befstatus', existingStatus)
 
     // only ask if permissions have not already been determined, because
     // iOS won't necessarily prompt the user a second time.
@@ -75,6 +75,7 @@ export default class HomeScreen extends Component {
       // Android remote notification permissions are granted during the app
       // install, so this will only ask on iOS
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      console.log('---------status', status)
       finalStatus = status;
     }
 
@@ -92,13 +93,13 @@ export default class HomeScreen extends Component {
   }
 
   render() {
-    console.log('test', this.state.user)
+    // console.log('test', this.state.user)
     return (
       // <View style={styles.container}>
         !this.state.user.uid
         ? <Login />
         : (<View style={styles.container}>
-          <HeaderBar text='Nudges' style={{marginTop: StatusBar.currentHeight}}/>
+          <HeaderBar text='Nudges' style={{marginTop: StatusBar.currentHeight, backgroundColor: '#800000'}}/>
           <FlatList
             data={this.state.nudges}
             renderItem={({item}) => <SingleNudge nudgeInfo={item} key={item.id}/>}

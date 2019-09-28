@@ -49,8 +49,7 @@ export default class Login extends React.Component {
       }
 
       let cred = await firebase.auth().createUserWithEmailAndPassword(email, password)
-      console.log('cred------', cred.user)
-      FirebaseWrapper.GetInstance().collections('users').doc(cred.user.uid).set({
+      firebase.firestore().collection('users').doc(cred.user.uid).set({
         email: email
       })
 
@@ -93,23 +92,26 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <Container style={styles.comntainer}>
+      <Container style={styles.container}>
+        <Text>Nudge</Text>
         <Form>
           <Item floatingLabel>
-            <Label>Email</Label>
+            <Label style={{ color:'white'}}>Email</Label>
             <Input
               autoCorrect={false}
               autoCapitalize='none'
+              style={{ color:'white'}}
               onChangeText={(email) => this.setState({email})}
             />
           </Item>
 
           <Item floatingLabel>
-            <Label>Password</Label>
+            <Label style={{ color:'white'}}>Password</Label>
             <Input
               secureTextEntry={true}
               autoCorrect={false}
               autoCapitalize='none'
+              style={{ color:'white'}}
               onChangeText={(password) => this.setState({password})}
             />
           </Item>
@@ -149,7 +151,7 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#800000',
     justifyContent: 'center',
     padding: 10
   }
