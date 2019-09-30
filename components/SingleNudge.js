@@ -21,19 +21,10 @@ export default class SingleNudge extends React.Component {
   }
 
   async deleteNudge() {
-    // console.log('anything', this.props.nudgeInfo)
-    // console.log('data: ', data)
     await FirebaseWrapper.GetInstance().DeleteDocument('nudges', this.props.nudgeInfo)
-    // await firebase.database().ref('nudges' + this.props.nudgeInfo.id).set(null)
-    // rowMap['$']
   }
 
-
-
-  // <TouchableHighlight><Text>Delete</Text></TouchableHighlight>
-
   render() {
-    // console.log('single: ', this.props.nudgeInfo)
     return (
       <View style={styles.postContainer}>
           <Swipeout right={this.rightButtons} onPress={this.deleteNudge} style={styles.swipe}>

@@ -11,7 +11,6 @@ export default class MyDatePicker extends Component {
     this.props.setTime(time)
     this.setState(time)
 
-    // console.log('daystate', this.state)
   }
 
   render(){

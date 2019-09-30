@@ -36,7 +36,6 @@ export default class Login extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        // console.log('user: ', user)
       }
     })
   }
@@ -53,16 +52,6 @@ export default class Login extends React.Component {
         email: email
       })
 
-
-      // let user = FirebaseAuth.getInstance().getCurrentUser()
-      // console.log('user----', user)
-
-
-    //   firebase.auth().currentUser.updateProfile({
-    //     displayName : validate.name,
-    // }).then(()=>{
-    //     firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/profile").set(firebase.auth().currentUser);
-
     } catch (error) {
       console.log(error)
     }
@@ -71,7 +60,6 @@ export default class Login extends React.Component {
   loginUser = (email, password) => {
     try {
       firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
-        // console.log(user)
       })
     } catch (error) {
       console.log(error)

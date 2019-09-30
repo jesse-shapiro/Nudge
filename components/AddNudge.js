@@ -41,7 +41,6 @@ export default class AddNudge extends Component {
 
   setTime(time) {
     this.setState(time)
-    // console.log('daystate', this.state)
   }
 
   async createNudge() {

@@ -4,22 +4,15 @@ import SingleNudge from '../components/SingleNudge'
 import HeaderBar from '../components/Header'
 import Login from '../components/Login'
 import * as firebase from 'firebase'
-import { SwipeListView } from 'react-native-swipe-list-view';
-import { List, ListItem, Content } from 'native-base'
 import {
-  Image,
   FlatList,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   StatusBar,
-  ListView,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
 import { FirebaseWrapper } from '../firebase/firebase';
 import { Notifications } from 'expo'
 import * as Permissions from 'expo-permissions'
@@ -45,10 +38,6 @@ export default class HomeScreen extends Component {
           }
         })
 
-      // var that = this
-      // let user = await firebase.auth().signInWithEmailAndPassword('pancake@gmail.com', 'password')
-
-        // console.log('-----------something or no', user)
         if (this.state.user.uid) {
           this.registerForPushNotificationsAsync(this.state.user)
         }
@@ -70,7 +59,6 @@ export default class HomeScreen extends Component {
       Permissions.NOTIFICATIONS
     );
     let finalStatus = existingStatus;
-    // console.log('---------befstatus', existingStatus)
 
     // only ask if permissions have not already been determined, because
     // iOS won't necessarily prompt the user a second time.
@@ -78,7 +66,6 @@ export default class HomeScreen extends Component {
       // Android remote notification permissions are granted during the app
       // install, so this will only ask on iOS
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      // console.log('---------status', status)
       finalStatus = status;
     }
 
@@ -92,32 +79,17 @@ export default class HomeScreen extends Component {
 
     var updates = {}
     updates['expoToken'] = token
-    // console.log('user-------', user.user)
-    console.log('updates????????', updates)
-    console.log('uid-------------', user.uid)
     firebase.firestore().collection('users').doc(user.uid).update(updates)
-    // // Build notification
-    // const notification = new firebase.notifications.Notification()...;
-
-    // // Schedule the notification for 1 minute in the future
-    // const date = new Date();
-    // date.setMinutes(date.getMinutes() + 1);
-
-    // firebase.notifications().scheduleNotification(notification, {
-    //     fireDate: date.getTime(),
-// })
 
     // firebase.firestore().collection('users').child(user.uid).update(updates)
   }
 
   render() {
-    // console.log('test', this.state.user)
     if (this.state.user.uid) {
       this.registerForPushNotificationsAsync(this.state.user)
     }
 
     return (
-      // <View style={styles.container}>
         !this.state.user.uid
         ? <Login />
         : (<View style={styles.container}>
@@ -129,120 +101,11 @@ export default class HomeScreen extends Component {
           />
         </View>
         )
-        // </View>
         )
       }
 
     }
 
-        {/* <SwipeListView
-            data={this.state.nudges}
-            renderItem={({item}) => <SingleNudge nudgeInfo={item} key={item.id}/>}
-            // renderItem={ (data, rowMap) => (
-            //     <View style={styles.rowFront}>
-            //         <Text>I am {data.item} in a SwipeListView</Text>
-            //     </View>
-            // )}
-            renderHiddenItem={ (data, rowMap) => (
-                <View style={styles.rowBack}>
-                    <Text>Left</Text>
-                    <Text>Right</Text>
-                </View>
-            )}
-            leftOpenValue={75}
-            rightOpenValue={-75}
-        /> */}
-
-
-
-        {/* <ScrollView> */}
-        {/* <Content>
-          <List
-            dataSource={this.state.nudges}
-            renderRow={(data) => {
-              return (
-                <ListItem>
-                  <View>
-                    <Text>{data}</Text>
-                    <Text>testing</Text>
-                  </View>
-              </ListItem>
-              )
-
-            }}
-            renderLeftHiddenRow={data =>
-              <Button full>
-                <Icon name='information-circle' />
-              </Button>
-            }
-            renderRightHiddenRow={data =>
-              <Button full danger>
-                <Icon name='trash' />
-              </Button>
-            }
-            leftOpenValue={-75}
-            rightOpenValue={-75}
-            />
-            </Content> */}
-         {/* {
-          this.state.nudges.map((nudge) => {
-            return <SingleNudge nudgeInfo={nudge} key={nudge.id}/>
-          })
-        }
-         </ScrollView> */}
-
-    // <View style={styles.container}>
-    //   <ScrollView
-    //     style={styles.container}
-    //     contentContainerStyle={styles.contentContainer}>
-    //     <View style={styles.welcomeContainer}>
-    //       <Image
-    //         source={
-    //           __DEV__
-    //             ? require('../assets/images/robot-dev.png')
-    //             : require('../assets/images/robot-prod.png')
-    //         }
-    //         style={styles.welcomeImage}
-    //       />
-    //     </View>
-
-    //     <View style={styles.getStartedContainer}>
-    //       <DevelopmentModeNotice />
-
-    //       <Text style={styles.getStartedText}>Get started by opening</Text>
-
-    //       <View
-    //         style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-    //         <MonoText>screens/HomeScreen.js</MonoText>
-    //       </View>
-
-    //       <Text style={styles.getStartedText}>
-    //         Change this text and your app will automatically reload.
-    //       </Text>
-    //     </View>
-
-    //     <View style={styles.helpContainer}>
-    //       <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-    //         <Text style={styles.helpLinkText}>
-    //           Help, it didn’t automatically reload!
-    //         </Text>
-    //       </TouchableOpacity>
-    //     </View>
-    //   </ScrollView>
-
-    //   <View style={styles.tabBarInfoContainer}>
-    //     <Text style={styles.tabBarInfoText}>
-    //       This is a tab bar. You can edit it in:
-    //     </Text>
-
-    //     <View
-    //       style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-    //       <MonoText style={styles.codeHighlightText}>
-    //         navigation/MainTabNavigator.js
-    //       </MonoText>
-    //     </View>
-    //   </View>
-    // </View>
 
 
 HomeScreen.navigationOptions = {
