@@ -96,7 +96,11 @@ export default class Login extends React.Component {
         {/* <Image
                 source={require('./../assets/images/nudge.gif')}
               /> */}
-        <Text style={styles.title}>Nudge</Text>
+        {/* <Text style={styles.title}>Nudge</Text> */}
+        <Image
+        style={styles.image}
+        source={require('./../assets/images/Logo.png')}
+        />
         <Form>
           <Item floatingLabel>
             <Label style={{ color:'white'}}>Email</Label>
@@ -158,12 +162,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10
   },
+  image: {
+    marginBottom: 100,
+    marginLeft: 30
+  },
   title: {
     fontSize: 50,
-    // fontFamily: '',
+    // fontFamily: 'Impact',
+    fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
-    paddingBottom: 200,
-    paddingTop: 100
+    // paddingBottom: 30,
+
+    // paddingTop: 100
   }
 })
