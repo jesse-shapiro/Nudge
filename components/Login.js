@@ -93,7 +93,10 @@ export default class Login extends React.Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Text>Nudge</Text>
+        {/* <Image
+                source={require('./../assets/images/nudge.gif')}
+              /> */}
+        <Text style={styles.title}>Nudge</Text>
         <Form>
           <Item floatingLabel>
             <Label style={{ color:'white'}}>Email</Label>
@@ -116,7 +119,7 @@ export default class Login extends React.Component {
             />
           </Item>
 
-          <Button style={{ marginTop: 10 }}
+          <Button style={{ marginTop: 40 }}
             full
             rounded
             success
@@ -154,5 +157,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#800000',
     justifyContent: 'center',
     padding: 10
+  },
+  title: {
+    fontSize: 50,
+    // fontFamily: '',
+    color: 'white',
+    textAlign: 'center',
+    paddingBottom: 200,
+    paddingTop: 100
   }
 })

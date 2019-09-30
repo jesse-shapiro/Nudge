@@ -96,6 +96,17 @@ export default class HomeScreen extends Component {
     console.log('updates????????', updates)
     console.log('uid-------------', user.uid)
     firebase.firestore().collection('users').doc(user.uid).update(updates)
+    // // Build notification
+    // const notification = new firebase.notifications.Notification()...;
+
+    // // Schedule the notification for 1 minute in the future
+    // const date = new Date();
+    // date.setMinutes(date.getMinutes() + 1);
+
+    // firebase.notifications().scheduleNotification(notification, {
+    //     fireDate: date.getTime(),
+// })
+
     // firebase.firestore().collection('users').child(user.uid).update(updates)
   }
 

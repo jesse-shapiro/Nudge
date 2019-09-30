@@ -7,6 +7,13 @@ export default class MyDatePicker extends Component {
     this.state = {time:''}
   }
 
+  setLocalTime(time) {
+    this.props.setTime(time)
+    this.setState(time)
+
+    // console.log('daystate', this.state)
+  }
+
   render(){
     return (
       <DatePicker
@@ -31,7 +38,7 @@ export default class MyDatePicker extends Component {
           }
           // ... You can check the source to find the other keys.
         }}
-        onDateChange={(time) => {this.setState({time: time})}}
+        onDateChange={(time) => {this.setLocalTime({time: time})}}
       />
     )
   }

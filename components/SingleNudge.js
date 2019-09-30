@@ -39,7 +39,31 @@ export default class SingleNudge extends React.Component {
           <Swipeout right={this.rightButtons} onPress={this.deleteNudge} style={styles.swipe}>
             <View style={styles.dateUserContainer}>
               <Text style={styles.text}>{this.props.nudgeInfo.text} </Text>
-              <Text> M T W Th F | 2:00pm</Text>
+              <View style={styles.dayOfWeekContainer}>
+              {this.props.nudgeInfo.Monday
+              ? <Text style={styles.dayOfWeek}>M</Text>
+            // />
+              : null}
+              {this.props.nudgeInfo.Tuesday
+              ? <Text style={styles.dayOfWeek}>T</Text>
+              : null}
+              {this.props.nudgeInfo.Wednesday
+              ? <Text style={styles.dayOfWeek}>W</Text>
+              : null}
+              {this.props.nudgeInfo.Thursday
+              ? <Text style={styles.dayOfWeek}>Th</Text>
+              : null}
+              {this.props.nudgeInfo.Friday
+              ? <Text style={styles.dayOfWeek}>F</Text>
+              : null}
+              {this.props.nudgeInfo.Saturday
+              ? <Text style={styles.dayOfWeek}>Sat</Text>
+              : null}
+              {this.props.nudgeInfo.Sunday
+              ? <Text style={styles.dayOfWeek}>Sun</Text>
+              : null}
+              <Text>  {this.props.nudgeInfo.time}</Text>
+              </View>
             </View>
           </Swipeout>
       </View>
@@ -52,6 +76,7 @@ const styles = StyleSheet.create({
   postContainer: {
     flex: 1,
     padding: 10,
+    backgroundColor: '#f2f2f2',
     borderBottomColor: '#800000',
     borderBottomWidth: 1,
   },
@@ -69,11 +94,27 @@ const styles = StyleSheet.create({
   },
   dateUserContainer: {
     marginLeft: 3,
+    backgroundColor: '#f2f2f2'
 
   },
   postText: {
     padding: 5,
     fontSize: 15
+  },
+  dayOfWeekContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  dayOfWeek: {
+    width: 30,
+    height: 20,
+    textAlign: 'center',
+    borderRadius: 8,
+    backgroundColor: 'white',
+    marginLeft: 2.5,
+    marginRight: 2.5,
+    borderColor: 'black',
+    borderWidth: 1,
   }
 })
 

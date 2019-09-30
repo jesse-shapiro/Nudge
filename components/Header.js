@@ -44,10 +44,11 @@ export default class HeaderBar extends Component {
         </Text>
 
         <TouchableOpacity onPress={() => this.setState({ isModalVisible: true })} style={styles.buttonContainer}>
-          <Image
+          {/* <Image
             style={styles.button}
             source={require('./../assets/images/whiteplud.jpg')}
-          />
+          /> */}
+          <Text style={styles.plusSign}>+</Text>
         </TouchableOpacity>
 
         <AddNudge isModalVisible={this.state.isModalVisible} closeModal={() => this.closeModal()} />
@@ -75,6 +76,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     flex: 1
+  },
+  plusSign: {
+    textAlign: 'center',
+    fontSize: 25,
+    color: 'white',
+    fontWeight: 'bold'
   },
   button: {
     width: 30,
